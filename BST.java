@@ -240,13 +240,6 @@ public class BST<T extends Comparable <T>> implements BSTInterface<T>
     }
 
     public T rFindMin(Node r) {
-       /*  T minv = r.data; 
-        while (r.lchild != null) 
-        { 
-            minv = r.lchild.data; 
-            r = r.lchild; 
-        } 
-        return minv;  */
         
         T min = r.data;
         System.out.println("\n min: " + min.toString());
