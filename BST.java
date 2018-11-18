@@ -227,18 +227,28 @@ public class BST<T extends Comparable <T>> implements BSTInterface<T>
 
     public T findMax()
     {
-        return rFindMax(root);  // stub
+        return rFindMax(root); 
     }
 
+    //
+    //   rFindMax()  - recursively return the value of the largest data
+    //                item in the tree - if the tree is
+    //                empty, return null.
+    //
+
+
     public T rFindMax(Node r) {
-        if (root == null) return null;
+        if (root == null) 
+            return null;
+
         T max = r.data;
 
-        if (r.rchild == null) {
+        if (r.rchild == null)
             return max;
-        }
+
         if (r.rchild.data.compareTo(r.data) > 0)
             return max = rFindMax(r.rchild);
+
         return max;
     }
 
@@ -251,7 +261,6 @@ public class BST<T extends Comparable <T>> implements BSTInterface<T>
 
     public T findMin()
     {
-
         return rFindMin(root);
     }
 
@@ -262,17 +271,18 @@ public class BST<T extends Comparable <T>> implements BSTInterface<T>
     //
 
     public T rFindMin(Node r) {
-        if (root == null) return null;
+        if (root == null) 
+            return null;
         
         T min = r.data;
 
-        if (r.lchild == null) {
+        if (r.lchild == null) 
             return min;
-        }
+
         if (r.lchild.data.compareTo(r.data) < 0)
             return min = rFindMin(r.lchild);
+
         return min;
-        
     }
     //
     //  removeMin() - remove the Node containing the
@@ -281,7 +291,7 @@ public class BST<T extends Comparable <T>> implements BSTInterface<T>
 
     public void removeMin()
     {
-        return;   //stub
+        remove(findMin());
     }
 
 
@@ -292,7 +302,7 @@ public class BST<T extends Comparable <T>> implements BSTInterface<T>
 
     public void removeMax()
     {
-            return;  // stub
+        remove(findMax());
     }
 
 
