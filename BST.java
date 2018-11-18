@@ -197,21 +197,25 @@ public class BST<T extends Comparable <T>> implements BSTInterface<T>
 
     public T find(T x)
     {
+    
         return rFind(root, x).data; // stub
     }
     //
     //  rFind() -  recursively search for the node whose data item is x
     //  
-    public Node rFind(Node root, T x) {
-        if (root.data.equals(x)) {
-            return root;
+    public Node rFind(Node r, T x) {
+        if (r == null) {
+            return null;
         }
-        else {
-            rFind(root.lchild, x);
-            rFind(root.rchild, x);
-            root = null;
+        // recurse left
+        if (x.compareTo(r.data) < 0) {
+            r = rFind(r.lchild, x);
+        } 
+        // recurse right
+        else if (x.compareTo(r.data) > 0) {
+            r = rFind(r.rchild, x);
         }
-        return root;
+        return r;
     }
 
     //
@@ -223,7 +227,19 @@ public class BST<T extends Comparable <T>> implements BSTInterface<T>
 
     public T findMax()
     {
-        return null;  // stub
+        return rFindMax(root);  // stub
+    }
+
+    public T rFindMax(Node r) {
+        if (root == null) return null;
+        T max = r.data;
+
+        if (r.rchild == null) {
+            return max;
+        }
+        if (r.rchild.data.compareTo(r.data) > 0)
+            return max = rFindMax(r.rchild);
+        return max;
     }
 
 
@@ -239,10 +255,16 @@ public class BST<T extends Comparable <T>> implements BSTInterface<T>
         return rFindMin(root);
     }
 
+    //
+    //   rFindMin()  - recursively return the value of the smallest data
+    //                item in the tree - if the tree is
+    //                empty, return null.
+    //
+
     public T rFindMin(Node r) {
+        if (root == null) return null;
         
         T min = r.data;
-        System.out.println("\n min: " + min.toString());
 
         if (r.lchild == null) {
             return min;
@@ -285,8 +307,6 @@ public class BST<T extends Comparable <T>> implements BSTInterface<T>
         root = rRemove(root, x);
     }
 
-        //Node node = rFind(root, x);
-        //System.out.println("removing with rFind: " + node.toString());
         // Removing an arbitrary node is handled by
         // considering several cases.  Implement and
         // test each case, finishing one case before
@@ -312,37 +332,44 @@ public class BST<T extends Comparable <T>> implements BSTInterface<T>
         //     with only a single subtree (left or right, but not both.)
 
 
-
     public Node rRemove(Node r, T x) {
         
-        // Base Case - tree is empty
-        if (r == null)  return r; 
+        // Base Case - tree is empty or value not found
+        if (r == null)  {
+            return r; 
+        }
     
-        // recur down the tree
-        if ( x.compareTo(r.data) < 0 )  // smaller values to the left
-            r.lchild = rRemove(r.lchild, x); 
-        else if (x.compareTo(r.data) > 0) // greater values to the right
+        // recur down the tree to find x
+        if ( x.compareTo(r.data) < 0 ) {
+            // smaller values to the left
+            r.lchild = rRemove(r.lchild, x);
+        }  
+        else if (x.compareTo(r.data) > 0)  {
+            // greater values to the right
             r.rchild = rRemove(r.rchild, x); 
-    
+        }
+
         // if x is same as root's data, remove this node
         else
         { 
             // Case 1: remove leaf node
             // Case 2: left subtree but no right subtree  
-            if (r.lchild == null)
-                return r.rchild;
-            // Case 3: right subtree but no left subtree
-            else if (r.rchild == null)
+            if (r.rchild == null) {
                 return r.lchild;
-
+            }
+            // Case 3: right subtree but no left subtree
+            else if (r.lchild == null) {
+                return r.rchild;
+            }   
+   
             // Case 4: node with two children: 
-            // Get the minimum in the right subtree
+            // swap with the minimum in the right subtree
             r.data = rFindMin(r.rchild); 
-  
-            // Delete the inorder successor 
+            // Delete the inorder successor - 
+            // recur again, remove will be handled by previous cases
             r.rchild = rRemove(r.rchild, r.data); 
+
         } 
-        System.out.println("r : " + r.data.toString());
         return r; 
     }
 

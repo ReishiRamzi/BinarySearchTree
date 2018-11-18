@@ -60,7 +60,7 @@ public class BSTdemo {
 
         System.out.println("-------------------------");
         t1.printTree();
-        t1.inorder();
+        System.out.println("find 47: " + t1.find(47).toString());
         System.out.println("-------------------------");
         t2.printTree();
         System.out.println("-------------------------");
