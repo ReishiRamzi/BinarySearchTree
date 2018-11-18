@@ -191,15 +191,28 @@ public class BST<T extends Comparable <T>> implements BSTInterface<T>
     //
     //   find()  - search the tree to determine if data
     //             item x is in the tree, if x is in the tree
-    //             simply return the data item, else return null.
+    //             simply return the node, else return null.
     //
 
 
     public T find(T x)
     {
-        return null; // stub
+        return rFind(root, x).data; // stub
     }
-
+    //
+    //  rFind() -  recursively search for the node whose data item is x
+    //  
+    public Node rFind(Node root, T x) {
+        if (root.data.equals(x)) {
+            return root;
+        }
+        else {
+            rFind(root.lchild, x);
+            rFind(root.rchild, x);
+            root = null;
+        }
+        return root;
+    }
 
     //
     //   findMax()  - return the value of the largest data
@@ -222,10 +235,30 @@ public class BST<T extends Comparable <T>> implements BSTInterface<T>
 
     public T findMin()
     {
-        return null;
+
+        return rFindMin(root);
     }
 
-
+    public T rFindMin(Node r) {
+       /*  T minv = r.data; 
+        while (r.lchild != null) 
+        { 
+            minv = r.lchild.data; 
+            r = r.lchild; 
+        } 
+        return minv;  */
+        
+        T min = r.data;
+        System.out.println("\n min: " + min.toString());
+
+        if (r.lchild == null) {
+            return min;
+        }
+        if (r.lchild.data.compareTo(r.data) < 0)
+            return min = rFindMin(r.lchild);
+        return min;
+        
+    }
     //
     //  removeMin() - remove the Node containing the
     //                smallest data item.  If the tree
@@ -254,16 +287,20 @@ public class BST<T extends Comparable <T>> implements BSTInterface<T>
     //              is empty or does not contain x,
     //              do nothing, just return.
 
-    public void remove(T x)
-    {
-        return; // stub
+    public void remove(T x) {
+        // root becomes root with x removed
+        root = rRemove(root, x);
+    }
 
+        //Node node = rFind(root, x);
+        //System.out.println("removing with rFind: " + node.toString());
         // Removing an arbitrary node is handled by
         // considering several cases.  Implement and
         // test each case, finishing one case before
         // tackling the next.
 
         // Case 1: The node to delete is a leaf.
+
 
 
         // Case 2: The the node to delete has a left subtree
@@ -282,22 +319,54 @@ public class BST<T extends Comparable <T>> implements BSTInterface<T>
         //     with only a single subtree (left or right, but not both.)
 
 
+
+    public Node rRemove(Node r, T x) {
+        
+        // Base Case - tree is empty
+        if (r == null)  return r; 
+    
+        // recur down the tree
+        if ( x.compareTo(r.data) < 0 )  // smaller values to the left
+            r.lchild = rRemove(r.lchild, x); 
+        else if (x.compareTo(r.data) > 0) // greater values to the right
+            r.rchild = rRemove(r.rchild, x); 
+    
+        // if x is same as root's data, remove this node
+        else
+        { 
+            // Case 1: remove leaf node
+            // Case 2: left subtree but no right subtree  
+            if (r.lchild == null)
+                return r.rchild;
+            // Case 3: right subtree but no left subtree
+            else if (r.rchild == null)
+                return r.lchild;
+
+            // Case 4: node with two children: 
+            // Get the minimum in the right subtree
+            r.data = rFindMin(r.rchild); 
+  
+            // Delete the inorder successor 
+            r.rchild = rRemove(r.rchild, r.data); 
+        } 
+        System.out.println("r : " + r.data.toString());
+        return r; 
     }
 
-
     // makeEmpty - remove all items from the tree
     
-
     public void makeEmpty()
     {
-         return;   // A stub
+        // dereference the root
+        root = null;
     }
 
     // isEmpty() - check if a tree is empty
     
     public boolean isEmpty()
     {
-        return false;    // A stub
+        // if root is null, tree is empty
+        return (root == null) ? true : false;
     }
 
 

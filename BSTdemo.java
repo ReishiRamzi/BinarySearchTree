@@ -60,6 +60,7 @@ public class BSTdemo {
 
         System.out.println("-------------------------");
         t1.printTree();
+        t1.inorder();
         System.out.println("-------------------------");
         t2.printTree();
         System.out.println("-------------------------");
@@ -111,7 +112,16 @@ public class BSTdemo {
         t5.printTree();
         System.out.println("-------------------------");
 
+        System.out.println("---------------------");
+        System.out.println("---------------------");
+        System.out.println("---------------------");
+        System.out.println("Testing remove - removing 47: ");
+        t5.remove(47);
+        t5.printTree();
 
+        System.out.println();
+
+        System.out.println("---------------------");
 
         if (t5.equals(t4))
             System.out.println("Tree t4 equals tree t5");
