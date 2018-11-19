@@ -18,6 +18,24 @@ public class BSTdemo {
         BST<Integer> t7 = new BST<Integer>();
         BST<Integer> t8 = new BST<Integer>();
         BST<Integer> t9 = new BST<Integer>();
+        t9.insert(27);
+        t9.insert(5);
+        t9.insert(30);
+        t9.insert(12);
+        t9.insert(40);
+        t9.insert(10);
+        t9.insert(20);
+        t9.insert(16);
+        t9.insert(25);
+        t9.insert(18);
+        t9.printTree();        
+        System.out.println("-------------------------");
+
+        t9.remove(12);
+        t9.printTree();
+        t9.makeEmpty();
+        System.out.println("-------------------------");
+
 
         // test empty tree
         if (t1.equals(t4))
@@ -173,6 +191,7 @@ public class BSTdemo {
         t6.remove(6);
         System.out.println("---------------------");
         t6.printTree();
+        System.out.println("---------------------");
 
         t7.insert(6);
         t7.insert(5);
@@ -199,7 +218,7 @@ public class BSTdemo {
         System.out.println("---------------------");
         t9.printTree();
 
-        System.exit(0);
+        //System.exit(0);
         // Here we test findMax() and findMin() - Note: this code
         // fails if the tree is empty and null is returned.
 
@@ -229,13 +248,14 @@ public class BSTdemo {
         t1.printTree();
 
         t1.removeMax();
-//        System.out.println("---------------------");
-//        t1.printTree();
-//
-//        t1.removeMax();
-//        System.out.println("---------------------");
-//        t1.printTree();
+        
+        System.out.println("---------------------");
+        t1.printTree();
 
+        t1.removeMax();
+        System.out.println("---------------------");
+        t1.printTree();
+        System.exit(0);
 
         // Add your own checks, trees, and removals
         // so that all cases are handled and tested.

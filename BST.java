@@ -346,40 +346,57 @@ public class BST<T extends Comparable <T>> implements BSTInterface<T>
         
         // Base Case - tree is empty or value not found
         if (r == null)  {
+            System.out.println("empty tree or value not found");
             return r; 
         }
     
-        // recur down the tree to find x
-        if ( x.compareTo(r.data) < 0 ) {
+        // recur down the tree to find x, reassign data to restructured tree
+        if (x.compareTo(r.data) < 0 ) {
             // smaller values to the left
+            System.out.println("moving left...");
             r.lchild = rRemove(r.lchild, x);
         }  
         else if (x.compareTo(r.data) > 0)  {
             // greater values to the right
+            System.out.println("moving right...");
             r.rchild = rRemove(r.rchild, x); 
         }
 
-        // if x is same as root's data, remove this node
+        // if x is same as root's data, deal with cases
         else
         { 
-            // Case 1: remove leaf node
+            System.out.println("found value... " + x.toString());
+
             // Case 2: left subtree but no right subtree  
             if (r.rchild == null) {
+                // Case 1: node is a leaf
+                // unnecessary - this if block is just to illustrate leaf case
+                if (r.lchild == null) {
+                    System.out.println("leaf node... ");
+                    return null;
+                }
+                // returns null left child if leaf, assigns r.lchild to node that called remove
+                System.out.println("no right child... ");
                 return r.lchild;
             }
             // Case 3: right subtree but no left subtree
             else if (r.lchild == null) {
+                // assign r.rchild to node that called remove
+                System.out.println("no left child... ");
                 return r.rchild;
             }   
    
             // Case 4: node with two children: 
-            // swap with the minimum in the right subtree
-            r.data = rFindMin(r.rchild); 
-            // Delete the inorder successor - 
-            // recur again, remove will be handled by previous cases
-            r.rchild = rRemove(r.rchild, r.data); 
+            // find the minimum value in the right subtree and swap for current
+            // (to be a parent, must grab higher data value)
+            r.data = rFindMin(r.rchild);  
 
+            // recur again, remove will be handled by previous cases
+            // restructure tree
+            r.rchild = rRemove(r.rchild, r.data); 
         } 
+        // return top root as we step out of recursive calls, 
+        // reassigning children along the way
         return r; 
     }
 
