@@ -198,11 +198,13 @@ public class BST<T extends Comparable <T>> implements BSTInterface<T>
     public T find(T x)
     {
     
-        return rFind(root, x).data; // stub
+        return rFind(root, x).data;
     }
+
     //
     //  rFind() -  recursively search for the node whose data item is x
     //  
+
     public Node rFind(Node r, T x) {
         if (r == null) {
             return null;
@@ -215,6 +217,7 @@ public class BST<T extends Comparable <T>> implements BSTInterface<T>
         else if (x.compareTo(r.data) > 0) {
             r = rFind(r.rchild, x);
         }
+        // else 
         return r;
     }
 
@@ -223,7 +226,6 @@ public class BST<T extends Comparable <T>> implements BSTInterface<T>
     //                item in the tree - if the tree is
     //                empty, return null.
     //
-
 
     public T findMax()
     {
@@ -236,22 +238,24 @@ public class BST<T extends Comparable <T>> implements BSTInterface<T>
     //                empty, return null.
     //
 
-
     public T rFindMax(Node r) {
+        // base case- no tree
         if (root == null) 
             return null;
 
+        // initialize max to current value
         T max = r.data;
-
+        
+        // no higher values, return max
         if (r.rchild == null)
             return max;
 
+        // recur down right subtree to find max
         if (r.rchild.data.compareTo(r.data) > 0)
             return max = rFindMax(r.rchild);
 
         return max;
     }
-
 
     //
     //   findMin()  - return the value of the smallest data
@@ -271,19 +275,23 @@ public class BST<T extends Comparable <T>> implements BSTInterface<T>
     //
 
     public T rFindMin(Node r) {
+        // base case - no tree
         if (root == null) 
             return null;
-        
+        // initialize min to current value
         T min = r.data;
 
+        // no lower values
         if (r.lchild == null) 
             return min;
 
+        // recur down left to find min
         if (r.lchild.data.compareTo(r.data) < 0)
             return min = rFindMin(r.lchild);
-
+        
         return min;
     }
+
     //
     //  removeMin() - remove the Node containing the
     //                smallest data item.  If the tree
@@ -294,7 +302,6 @@ public class BST<T extends Comparable <T>> implements BSTInterface<T>
         remove(findMin());
     }
 
-
     //
     //  removeMax() - remove the Node containing the
     //                largest data item.  If the tree
@@ -304,7 +311,6 @@ public class BST<T extends Comparable <T>> implements BSTInterface<T>
     {
         remove(findMax());
     }
-
 
     //
     //  remove(x) - remove the Node containing the
@@ -317,72 +323,39 @@ public class BST<T extends Comparable <T>> implements BSTInterface<T>
         root = rRemove(root, x);
     }
 
-        // Removing an arbitrary node is handled by
-        // considering several cases.  Implement and
-        // test each case, finishing one case before
-        // tackling the next.
-
-        // Case 1: The node to delete is a leaf.
-
-
-
-        // Case 2: The the node to delete has a left subtree
-        //         but no right subtree.
-
-
-        // Case 3: The node to delete has a right subtree
-        //         but no left subtree.
-
-
-        // Case 4: The node to delete has both left and right subtrees.
-        //
-        //     In this case, we swap the data in the node with the
-        //     smallest data value in its right subtree, then we delete this
-        //     "smallest data" node which is either a leaf or a node
-        //     with only a single subtree (left or right, but not both.)
+    //  rRemove() - recursively searches for and removes 
+    //  the node containing data item x from the root of the object
 
 
     public Node rRemove(Node r, T x) {
         
         // Base Case - tree is empty or value not found
         if (r == null)  {
-            System.out.println("empty tree or value not found");
             return r; 
         }
     
         // recur down the tree to find x, reassign data to restructured tree
         if (x.compareTo(r.data) < 0 ) {
             // smaller values to the left
-            System.out.println("moving left...");
             r.lchild = rRemove(r.lchild, x);
         }  
         else if (x.compareTo(r.data) > 0)  {
             // greater values to the right
-            System.out.println("moving right...");
             r.rchild = rRemove(r.rchild, x); 
         }
 
         // if x is same as root's data, deal with cases
         else
         { 
-            System.out.println("found value... " + x.toString());
-
             // Case 2: left subtree but no right subtree  
             if (r.rchild == null) {
                 // Case 1: node is a leaf
-                // unnecessary - this if block is just to illustrate leaf case
-                if (r.lchild == null) {
-                    System.out.println("leaf node... ");
-                    return null;
-                }
                 // returns null left child if leaf, assigns r.lchild to node that called remove
-                System.out.println("no right child... ");
                 return r.lchild;
             }
             // Case 3: right subtree but no left subtree
             else if (r.lchild == null) {
                 // assign r.rchild to node that called remove
-                System.out.println("no left child... ");
                 return r.rchild;
             }   
    
@@ -391,11 +364,10 @@ public class BST<T extends Comparable <T>> implements BSTInterface<T>
             // (to be a parent, must grab higher data value)
             r.data = rFindMin(r.rchild);  
 
-            // recur again, remove will be handled by previous cases
-            // restructure tree
+            // recur again to restructure tree and remove swapped node
             r.rchild = rRemove(r.rchild, r.data); 
         } 
-        // return top root as we step out of recursive calls, 
+        // return to top root as we step out of recursive calls, 
         // reassigning children along the way
         return r; 
     }
@@ -415,7 +387,6 @@ public class BST<T extends Comparable <T>> implements BSTInterface<T>
         // if root is null, tree is empty
         return (root == null) ? true : false;
     }
-
 
     //
     //  inner Node class
